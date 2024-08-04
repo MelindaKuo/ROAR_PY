@@ -7,6 +7,17 @@ from typing import Optional, Dict, Any
 import matplotlib.pyplot as plt
 import transforms3d as tr3d
 
+
+def new_x_y(x, y):
+        new_location = np.array([x, y, 0])
+        return roar_py_interface.RoarPyWaypoint(location=new_location, 
+                                                roll_pitch_yaw=np.array([0,0,0]), 
+                                                lane_width=5)
+startInd_8 = 1800
+endInd_8 = 2006
+startInd_12 = 2586
+
+
 async def main():
     carla_client = carla.Client('localhost', 2000)
     carla_client.set_timeout(15.0)
@@ -18,9 +29,9 @@ async def main():
     
     print("Map Name", carla_world.map_name)
     waypoints = roar_py_instance.world.maneuverable_waypoints
-    waypoints = \ 
-                maneuverable_waypoints[:startInd_8] + SEC_8_WAYPOINTS \
-                + maneuverable_waypoints[endInd_8:startInd_12] \
+    waypoints =  \
+                waypoints[:startInd_8] + SEC_8_WAYPOINTS \
+                + waypoints[endInd_8:startInd_12] \
                 + SEC_12_WAYPOINTS
 
     spawn_points = roar_py_instance.world.spawn_points
