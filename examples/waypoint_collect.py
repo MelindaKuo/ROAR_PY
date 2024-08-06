@@ -55,7 +55,7 @@ class ManualControlViewer:
         
         pressed_keys = pygame.key.get_pressed()
         if pressed_keys[pygame.K_UP]:
-            new_control['throttle'] = 0.4
+            new_control['throttle'] = 0.7
         if pressed_keys[pygame.K_DOWN]:
             new_control['brake'] = 0.2
         if pressed_keys[pygame.K_LEFT]:
@@ -130,7 +130,8 @@ async def main():
 
             if dist_to_last_waypoint > WAYPOINT_DISTANCE:
                 to_add = None
-                if is_collecting:
+                if is_collecting == False:
+                    print("you are not collecting")
                     to_add = roar_py_interface.RoarPyWaypoint(
                             current_location - vehicle.bounding_box.extent[2] * np.array([0,0,1]),
                             vehicle.get_roll_pitch_yaw(),
@@ -145,7 +146,7 @@ async def main():
                     closest_waypoint = carla_world.maneuverable_waypoints[closest_waypoint_idx]
                     if closest_waypoint not in waypoints:
                         to_add = closest_waypoint
-                if to_add is not None:
+                if to_add is not None and is_collecting == True:
                     print("Adding waypoint", to_add)
                     waypoints.append(
                         to_add
